@@ -1,9 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from g4f import ChatCompletion
 
 app = Flask(__name__)
-CORS(app, origins=['http://localhost:5173', 'https://gpt4free-flask-vercel.vercel.app'])
+CORS(app, origins=['http://localhost', 'https://flask-api-vercel-docker-swart.vercel.app'])
 
 
 @app.route('/api/chat', methods=['POST'])
@@ -14,4 +14,16 @@ def chat():
         messages=[{"role": "user", "content": data['message']}],
         stream=True,
     )
-    return {'response': list(response)}
+    return jsonify({'response': list(response)})
+
+
+@app.route("/")
+def home():
+    return jsonify({"message": "Hello, World!"})
+
+
+@app.route("/api", strict_slashes=False)
+def api():
+    return jsonify({"message": "Hello, API!"})
+
+

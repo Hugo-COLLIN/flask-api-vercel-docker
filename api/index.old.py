@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from flask_swagger_ui import get_swaggerui_blueprint
-import g4f
 
 app = Flask(__name__)
 
