@@ -1,20 +1,16 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from g4f import ChatCompletion
+from flask import Flask, jsonify
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
-CORS(app, origins=['http://localhost', 'https://flask-api-vercel-docker-swart.vercel.app'])
 
+SWAGGER_URL = "/api/docs"
+API_URL = "/static/swagger.json"
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    data = request.get_json()
-    response = ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": data['message']}],
-        stream=True,
-    )
-    return jsonify({'response': list(response)})
+swagger_ui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL, API_URL, config={"app_name": "Flask Swagger UI"}
+)
+
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 
 @app.route("/")
