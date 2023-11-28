@@ -1,4 +1,4 @@
-FROM python:3.8-rc-alpine
+FROM python:3.8-slim
 
 WORKDIR /app
 
@@ -20,8 +20,8 @@ RUN cat entrypoint.sh
 # Add execution permission to entrypoint script
 RUN chmod +x /app/entrypoint.sh
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Upgrade pip for the latest features and install the project's Python dependencies.
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
